@@ -1,0 +1,4 @@
+source/dist/*
+source/build/*
+.idea/*
+source/op_pdf.spec
