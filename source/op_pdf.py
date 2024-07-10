@@ -6,9 +6,9 @@ import camelot
 import tabula
 import shutil
 
-local_path = r'D:/PDF转换'
-result_path = r'D:/PDF转换'
-backup_path = r'D:/PDF转换/备份'
+local_path = 'D:\\PDF转换'
+result_path = 'D:\\PDF转换'
+backup_path = 'D:\\PDF转换/备份'
 
 is_debug = True
 
@@ -18,6 +18,7 @@ def convert_samsung(file):
                   ' Receiver', ' Qty', ' Amount']
 
     tables = camelot.read_pdf(file, flavor='stream', pages='1-end')
+    result_df = pd.DataFrame()
     for table in tables:
         df = table.df
         for index, row in df.iterrows():
@@ -45,7 +46,7 @@ def convert_samsung(file):
     df.to_excel(result_file.replace('.pdf', '.xlsx'), index=False)
 
 
-# convert_samsung(local_path + '/' + 'PurchaseOrder_2112124121_L10HRV (2).pdf')
+# convert_samsung(local_path + '/三星/' + 'PurchaseOrder_2112183519_L10HRV.pdf')
 # exit(0)
 
 def convert_guotai(file):
@@ -72,8 +73,7 @@ def convert_lansi(file):
             result_df = page_df[(page_df['序号'] != '本页小计') & (page_df['序号'] != '合计')]
         else:
             result_df = pd.concat([result_df, page_df[(page_df['序号'] != '本页小计') & (page_df['序号'] != '合计')]])
-
-    result_file = result_path + '/' + os.path.basename(file)
+    result_file = os.path.join(result_path, os.path.basename(file))
     result_df.to_excel(result_file.replace('.pdf', '.xlsx'), index=False)
 
 
